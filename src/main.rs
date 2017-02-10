@@ -1,14 +1,20 @@
 use std::iter;
 
 fn main() {
-    println!("{:?}", primes(10));
-    assert_eq!(4, primes(10).len());
+    let p: Vec<usize> = primes(10);
 
-    println!("{:?}", primes(30));
-    assert_eq!(10, primes(30).len());
+    println!("{:?}", p);
+    assert_eq!(4, p.len());
 
-    println!("{:?}", primes(100));
-    assert_eq!(25, primes(100).len());
+    let p = primes(30);
+
+    println!("{:?}", p);
+    assert_eq!(10, p.len());
+
+    let p = primes(100);
+
+    println!("{:?}", p);
+    assert_eq!(25, p.len());
 }
 
 fn primes(n: usize) -> Vec<usize> {
@@ -17,6 +23,7 @@ fn primes(n: usize) -> Vec<usize> {
     let limit = (sieve.len() as f32).sqrt().ceil() as usize;
     for i in 2..limit {
         if sieve[i] {
+            // it would be nice to use step_by here, but it isnt stable
             let mut multiple = i * i;
             loop {
                 if multiple >= sieve.len() {
@@ -28,5 +35,10 @@ fn primes(n: usize) -> Vec<usize> {
         }
     }
     
-    sieve.iter().enumerate().filter(|&(_, is_prime)| *is_prime).map(|(idx, _)| idx).skip(2).collect()
+    sieve.into_iter()
+         .enumerate()
+         .filter(|&(_, is_prime)| is_prime)
+         .map(|(idx, _)| idx)
+         .skip(2)
+         .collect()
 }
