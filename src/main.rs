@@ -23,5 +23,5 @@ fn primes(n: usize) -> Vec<usize> {
         }
     }
     
-    sieve.iter().filter(|&x| *x).enumerate().map(|(idx, _)| idx).skip(2).collect()
+    sieve.iter().enumerate().filter(|&(_, is_prime)| *is_prime).map(|(idx, _)| idx).skip(2).collect()
 }
