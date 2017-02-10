@@ -2,8 +2,13 @@ use std::iter;
 
 fn main() {
     println!("{:?}", primes(10));
+    assert_eq!(4, primes(10).len());
+
     println!("{:?}", primes(30));
+    assert_eq!(10, primes(30).len());
+
     println!("{:?}", primes(100));
+    assert_eq!(25, primes(100).len());
 }
 
 fn primes(n: usize) -> Vec<usize> {
