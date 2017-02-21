@@ -1,4 +1,5 @@
 use std::iter;
+use std::ops::RangeFrom;
 
 fn main() {
     let p: Vec<usize> = primes(10);
@@ -6,18 +7,20 @@ fn main() {
     println!("{:?}", p);
     assert_eq!(4, p.len());
 
-    let p = primes(30);
+    let p: Vec<u8> = primes(30);
 
     println!("{:?}", p);
     assert_eq!(10, p.len());
 
-    let p = primes(100);
+    let p: Vec<u64> = primes(100);
 
     println!("{:?}", p);
     assert_eq!(25, p.len());
 }
 
-fn primes(n: usize) -> Vec<usize> {
+fn primes<T>(n: usize) -> Vec<T> where
+   T: From<u8>,
+   RangeFrom<T>: Iterator<Item=T> {
     let mut sieve: Vec<bool> = iter::repeat(true).take(n).collect();
     
     let limit = (sieve.len() as f32).sqrt().ceil() as usize;
@@ -35,8 +38,7 @@ fn primes(n: usize) -> Vec<usize> {
         }
     }
     
-    sieve.into_iter()
-         .enumerate()
+    (T::from(0u8)..).zip(sieve.into_iter())
          .filter(|&(_, is_prime)| is_prime)
          .map(|(idx, _)| idx)
          .skip(2)
